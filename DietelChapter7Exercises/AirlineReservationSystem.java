@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class AirlineReservationSystem {
@@ -13,107 +14,133 @@ public class AirlineReservationSystem {
         return seats;
     }
 
-    public void reserveSeats(int number) {
+    public String reserveSeats(int number) {
+        String message ="";
         if(number==1){
-            bookFirstClassSeats(number);
+
+            message += bookFirstClassSeats(number);
         }
         if(number==2){
-            bookEconomyClassSeats(number);
+
+            message += bookEconomyClassSeats(number);
         }
+        if(number!=1 && number!=2){
+        message += "Enter either 1 or 2 to book";
+    }
+    return message;
     }
 
-    private void bookEconomyClassSeats(int number) {
+    private String bookEconomyClassSeats(int number) {
+        String message = "";
         if(number==2){
             if(this.EconomySeatCounters==5){
-                seatCounters(number);
+              message +=  seatCounters(number);
+
             }
             for(int counter=9;counter>=(seats.length/2);counter--)
             {
-                if(checkEconomyClassSeats(counter)==2){
-                    JOptionPane.showMessageDialog(null,"The seat "+(counter+1)+" for the Economy class has been booked");
-                    break;
+                if(Objects.equals(checkEconomyClassSeats(counter),( boardingPass(2,counter)))){
+                        message += "The seat " +(counter+1)+ " for the Economy class has been booked" +" "+ boardingPass(2,counter);
+                        break;
+
                 }
 
             }
 
         }
-
+        return message;
     }
-    private int checkEconomyClassSeats(int counter) {
+    private String checkEconomyClassSeats(int counter) {
+        String message = "";
         if(!seats[counter]){
-            if(markEconomyClassSeats(counter)==2){
-                return 2;
+            if(Objects.equals(markEconomyClassSeats(counter), boardingPass(2,counter))){
+            message += boardingPass(2,counter);
+
             }
         }
-        return 0;
+        return message;
     }
 
-    private int markEconomyClassSeats(int counter) {
+    private String markEconomyClassSeats(int counter) {
+        String message ="";
         if(!seats[counter]){
             seats[counter]=true;
-            boardingPass(2,counter);
+            message += boardingPass(2,counter);
             this.EconomySeatCounters+=1;
-            return 2;
+
         }
-        return 0;
+        return message;
     }
 
-    private void bookFirstClassSeats(int number){
+    private String bookFirstClassSeats(int number){
+        String message ="";
         if(number==1){
             if(this.FirstClassSeatCounters==5){
-                seatCounters(number);
+                message += seatCounters(number);
             }
             for(int counter=0;counter<(seats.length/2);counter++)
             {
-                if(checkFirstClassSeats(counter)==1){
-                    JOptionPane.showMessageDialog(null,"The seat " +(counter+1)+" for the First-class has been booked");
+                if(Objects.equals(checkFirstClassSeats(counter), boardingPass(1, counter))){
+                message += "The seat " +(counter+1)+" for the First-class has been booked" + " "+boardingPass(1, counter);
                     break;
+
                 }
 
             }
         }
+        return message;
     }
 
-    private int checkFirstClassSeats(int counter) {
+    private String checkFirstClassSeats(int counter) {
+        String message = "";
         if(!seats[counter]){
-            if(markFirstClassSeats(counter)==1){
-                return 1;
+            if(Objects.equals(markFirstClassSeats(counter), boardingPass(1, counter))){
+                message += boardingPass(1, counter);
+
             }
         }
-        return 0;
+        return message ;
     }
 
-    private int markFirstClassSeats(int counter) {
+    private String markFirstClassSeats(int counter) {
+        String message = "";
         if(!seats[counter]){
             seats[counter]=true;
-            boardingPass(1,counter);
+            message += boardingPass(1,counter);
             this.FirstClassSeatCounters+=1;
-            return 1;
         }
-        return 0;
+        return message;
     }
-    private void seatCounters(int number){
-
+    private String seatCounters(int number){
+        String message = "";
         if(number==1 && this.FirstClassSeatCounters==5 && this.EconomySeatCounters<5){
-            JOptionPane.showMessageDialog(null,"First class seats are all occupied but Economy class seats are available");
+          message += "First class seats are all occupied but Economy class seats are available";
 
 
         }
         if(number==2 && this.EconomySeatCounters==5 && this.FirstClassSeatCounters<5){
-            JOptionPane.showMessageDialog(null, "Economy class seats are all occupied but First class seats are available");
+         message += "Economy class seats are all occupied but First class seats are available";
 
         }
         if(this.EconomySeatCounters==5&&this.FirstClassSeatCounters==5){
-            JOptionPane.showMessageDialog(null, "Flight is fully booked next flight leaves in 3 hours");
+      message +=  "Flight is fully booked next flight leaves in 3 hours";
         }
+        return message;
     }
-    private void boardingPass(int number,int number2){
+    private String boardingPass(int number,int number2){
+        String message = "";
         if(number==1){
-            JOptionPane.showMessageDialog(null,"Your First class Flight has been booked and ur boarding pass number is "+number+"-"+(number2+1));
+        message += "Your First class Flight has been booked and ur boarding pass number is "+number+"-"+(number2+1);
         }
         if(number==2){
-          JOptionPane.showMessageDialog(null,"Your Economy class Flight has been booked and ur boarding pass number is "+number+"-"+(number2+1));
+            message += "Your Economy class Flight has been booked and ur boarding pass number is "+number+"-"+(number2+1);
+
+
         }
+        return message;
     }
+
+
+
 
 }
