@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -16,6 +17,8 @@ public class AirlineReservationSystem {
 
     public String reserveSeats(int number) {
         String message ="";
+    try{
+
         if(number==1){
 
             message += bookFirstClassSeats(number);
@@ -27,7 +30,12 @@ public class AirlineReservationSystem {
         if(number!=1 && number!=2){
         message += "Enter either 1 or 2 to book";
     }
-    return message;
+    }
+catch (InputMismatchException exception){
+    System.err.println("Enter a valid number either 1 or 2");
+
+    }
+        return message;
     }
 
     private String bookEconomyClassSeats(int number) {
@@ -62,7 +70,7 @@ public class AirlineReservationSystem {
     }
 
     private String markEconomyClassSeats(int counter) {
-        String message ="";
+        String message = "";
         if(!seats[counter]){
             seats[counter]=true;
             message += boardingPass(2,counter);
@@ -73,7 +81,7 @@ public class AirlineReservationSystem {
     }
 
     private String bookFirstClassSeats(int number){
-        String message ="";
+        String message = "";
         if(number==1){
             if(this.FirstClassSeatCounters==5){
                 message += seatCounters(number);
